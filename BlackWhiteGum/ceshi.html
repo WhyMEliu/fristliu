@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ceshi</title>
+    <style>
+
+
+
+        *{
+            background-color: black;
+
+        }
+        /*响应式布局*/
+        @media screen and (min-width: 1200px) {
+            .left {
+                width: 300px;
+                height: 540px;
+                left: -350px;
+
+
+                top : 0;
+            }
+        }
+
+        @media screen and (max-width: 1200px) {
+            .left {
+                width: 465px;
+                height: 200px;
+                top: -230px;
+
+
+                left: 0;
+            }
+
+            .main {
+                margin-top: 250px;
+            }
+        }
+
+
+        .main {
+            width: 450px;
+            height: 540px;
+            /*margin-left: 150px;*/
+
+
+            /*background-color: #ccc;*/
+            border: 1px solid darkturquoise;
+            padding: 10px;
+
+            position: relative;
+            overflow: hidden;
+        }
+        .row {
+            width: 100%;
+            height: 130px;
+            /*border: 1px solid yellow;*/
+            overflow: hidden;
+
+        position: absolute;
+
+
+        }
+        .grid-default {
+            width: 100px;
+            height: 100%;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            margin: 5px;
+        float: left;
+        }
+
+        #row01 {
+            top: -120px;
+        }
+        #row02 {
+            top: 10px;
+        }
+        #row03 {
+            top: 140px;
+        }
+        #row04 {
+            top: 270px;
+        }
+        #row05 {
+            top: 400px;
+        }
+
+
+
+    </style>
+
+</head>
+<body>
+<div class="main"  id="mainID">
+    <div id="row01" class="row" >
+        <div class="grid-default" onclick="a()"></div>
+        <div class="grid-default" >1</div>
+    </div>
+    <div id="row02" class="row" >
+        <div class="grid-default" onclick="a()"></div>
+        <div class="grid-default" >2</div>
+    </div>
+    <div id="row03" class="row" >
+        <div class="grid-default" onclick="a()"></div>
+        <div class="grid-default" >3</div>
+    </div>
+    <div id="row04" class="row" >
+        <div class="grid-default" onclick="a()"></div>
+        <div class="grid-default" >4</div>
+    </div>
+    <div id="row05" class="row" >
+        <div class="grid-default" onclick="a()"></div>
+        <div class="grid-default">5</div>
+    </div>
+</div>
+</body>
+
+<!--<link type="text/css" rel="stylesheet"  href="style.css">-->
+<script type="text/javascript">
+    var times;
+    var allrow = initAllRow();
+    window.onload =  function () {
+        move ();
+    };
+
+    function initAllRow() {
+        allrow=[];
+        console.debug("2331321313");
+        allrow.push(document.getElementById("row01"));
+        allrow.push(document.getElementById("row02"));
+        allrow.push(document.getElementById("row03"));
+        allrow.push(document.getElementById("row04"));
+        allrow.push(document.getElementById("row05"));
+        initAllRowInfo();
+        return allrow;
+    }
+
+    // 初始化allRow数组的信息
+    function initAllRowInfo() {
+        for ( var i = 0; i < allrow.length; i++) {
+            allrow[i].hasBlackGrid = false;//是否有黑格
+            allrow[i].blackGridPos = -1;//黑格子的位置
+            // 标识每一行是否有黑格，还有黑格的位置
+            // 把现有的黑格变成白格
+            var row = allrow[i].getElementsByTagName('div');
+            for ( var j = 0; j < row.length; j++) {
+                row[j].style.background = '#fff';
+
+                row[j].rowPos = i; // 表示在allRow的哪一位置
+                row[j].colPos = j; // 表示在该行中的哪个位置
+            }
+        }
+    }
+
+    function move () {
+        clearInterval(times);
+        times=setInterval(function () {
+            // console.debug("......");
+            var row;
+            var flag=false;
+            var ran;
+            //判断游戏是否结束
+
+            for(var i=0;i<5 ;i++){
+                row = allrow[i];
+                if (row.offsetTop >= 530) {
+                    console.debug("进入offsetTop==========")
+                    row.style.top = -120 + 'px';
+                    //console.debug(row.style.top);
+                    console.debug("row.hasBlackGrid===="+row.hasBlackGrid);
+                    if(row.hasBlackGrid==false){
+                        ran = Math.ceil(Math.random()*2)-1;
+                        console.debug("Math.ceil(Math.random()*2)====="+ran);
+                        row.getElementsByTagName("div")[ran].style.backgroundColor='#000';
+                        row.hasBlackGrid = true;
+                        row.blackGridPos = ran;
+                    }
+
+                    flag=true;
+                }
+                //console.debug("row.offsetTop===="+row.offsetTop);
+                row.style.top = row.offsetTop + 15 + 'px';
+            }
+            if(flag){
+                var temp1=allrow[0];
+                allrow.shift();
+                allrow.push(temp1);
+            }
+
+
+        },120);
+    };
+
+    function  a() {
+        alert("333333333");
+    }
+
+
+
+</script>
+</html>
